@@ -11,7 +11,7 @@ class Brew(dotbot.Plugin):
     def handle(self, directive, data):
         if directive == self._tapDirective:
             self._bootstrap_brew()
-            self._tap(data)
+            return self._tap(data)
         if directive == self._brewDirective:
             self._bootstrap_brew()
             return self._process_data("brew install", data)
@@ -27,7 +27,7 @@ class Brew(dotbot.Plugin):
         with open(os.devnull, 'w') as devnull:
             stdin = stdout = stderr = devnull
             for tap in tap_list:
-                log.info("Tapping %s", tap)
+                log.info("Tapping %s" % tap)
                 cmd = "brew tap %s" % (tap)
                 result = subprocess.call(cmd, shell=True, stdin=stdin, stdout=stdout, stderr=stderr, cwd=cwd)
 
